@@ -5,6 +5,8 @@
  */
 package crash;
 
+import java.util.List;
+
 /**
  *
  * @author ryan
@@ -19,13 +21,14 @@ public class Crash {
             System.out.println("usage: ./crash file threads queries...");
             System.exit(1);
         }
+        List<Record> records;
         
         String filename = args[0];
         try {
-            Record.loadFile(filename);
+            records = Record.loadFile(filename);
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
-    
 }
