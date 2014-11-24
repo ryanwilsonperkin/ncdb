@@ -5,6 +5,8 @@
  */
 package crash;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,21 +18,16 @@ public class Crash {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+            throws FileNotFoundException, IOException {
         if (args.length < 3) {
             System.out.println("usage: ./crash file threads queries...");
             System.exit(1);
         }
-        List<Record> records;
-        String filename = args[0];
-        int n_threads = Integer.parseInt(args[1]);
         
-        try {
-            records = Record.loadFile(filename);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        String filename = args[0];        
+        List<Record> records = Record.loadFile(filename);
+        int n_threads = Integer.parseInt(args[1]);
         
         for (int i = 2; i < args.length; i++) {
             switch(args[i]) {
