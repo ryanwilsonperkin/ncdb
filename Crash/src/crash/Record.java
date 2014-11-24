@@ -5,6 +5,15 @@
  */
 package crash;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author ryan
@@ -69,5 +78,21 @@ public class Record {
         } catch (NumberFormatException e) {
             return -1;
         }
+    }
+    
+    public static List<Record> loadFile(String file_name) 
+            throws FileNotFoundException, IOException {
+        List<Record> records = new ArrayList<Record>();
+        BufferedReader in = new BufferedReader(new FileReader(file_name));
+        String line;
+        
+        // Consume and dispose of first line (column headers).
+        in.readLine();
+        
+        // Read all lines into new Records.
+        while ((line = in.readLine()) != null) {
+            records.add(new Record(line));
+        }
+        return records;
     }
 }
