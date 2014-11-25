@@ -66,8 +66,10 @@ public class Query2 {
             int[] result = new int[2];
             for (int i = start; i < end; i++) {
                 Record r = records.get(i);
-                if (r.person.sex == 'M') ++result[0];
-                else if (r.person.sex == 'F') ++result[1];
+                if (r.person.treatment == 3) {
+                    if (r.person.sex == 'M') ++result[0];
+                    else if (r.person.sex == 'F') ++result[1];
+                }
             }
             return result;
         }
