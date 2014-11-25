@@ -43,7 +43,8 @@ public class Crash {
                     System.out.println("$Q1");
                     break;
                 case "2":
-                    System.out.println("$Q2");
+                    Query2 q2 = new Query2(records, thread_pool, 100);
+                    System.out.println(q2.result());
                     break;
                 case "3":
                     System.out.println("$Q3");
