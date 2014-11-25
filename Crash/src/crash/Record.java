@@ -58,12 +58,14 @@ public class Record {
                 p_safe, p_user);
     }
         
-    public static Set<Collision> getUniqueCollisions(List<Record> records) {
-        Set<Collision> collisions = new HashSet<Collision>();
+    public static List<Collision> getUniqueCollisions(List<Record> records) {
+        Set<Collision> collision_set = new HashSet<Collision>();
+        List<Collision> collision_list = new ArrayList<Collision>();
         for (Record r : records) {
-            if (r.collision.severity > 0) collisions.add(r.collision);
+            if (r.collision.severity > 0) collision_set.add(r.collision);
         }
-        return collisions;
+        collision_list.addAll(collision_set);
+        return collision_list;
     }
     
     public static List<Record> loadFile(String file_name) 

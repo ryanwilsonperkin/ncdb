@@ -30,7 +30,7 @@ public class Crash {
         String filename = args[0];
         int n_threads = Integer.parseInt(args[1]);
         List<Record> records = Record.loadFile(filename);
-        Set<Collision> collisions = Record.getUniqueCollisions(records);
+        List<Collision> collisions = Record.getUniqueCollisions(records);
         System.out.println(records.size() + " records");
         System.out.println(collisions.size() + " collisions");
         System.out.println(records.get(0));
