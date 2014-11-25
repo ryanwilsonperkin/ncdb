@@ -5,8 +5,6 @@
  */
 package crash;
 
-import static crash.Record.dataParse;
-
 /**
  *
  * @author ryan
@@ -16,9 +14,16 @@ public class Vehicle {
     int type;
     int year;
     
-    public Vehicle(String data) {
-        this.id = dataParse(data.substring(33,35));
-        this.type = dataParse(data.substring(36,38));
-        this.year = dataParse(data.substring(39,43));
+    public Vehicle(int id_, int type_, int year_) {
+        this.id = id_;
+        this.type = type_;
+        this.year = year_;
+    }
+    
+    @Override
+    public String toString() {
+        return id + "," +
+                type + "," +
+                year;
     }
 }

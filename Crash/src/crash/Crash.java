@@ -8,6 +8,8 @@ package crash;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  *
@@ -25,9 +27,15 @@ public class Crash {
             System.exit(1);
         }
         
-        String filename = args[0];        
-        List<Record> records = Record.loadFile(filename);
+        String filename = args[0];
         int n_threads = Integer.parseInt(args[1]);
+        List<Record> records = Record.loadFile(filename);
+        Set<Collision> collisions = Record.getUniqueCollisions(records);
+        System.out.println(records.size() + " records");
+        System.out.println(collisions.size() + " collisions");
+        System.out.println(records.get(0));
+        
+        ForkJoinPool thread_pool = new ForkJoinPool(n_threads);
         
         for (int i = 2; i < args.length; i++) {
             switch(args[i]) {

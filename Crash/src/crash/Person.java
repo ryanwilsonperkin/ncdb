@@ -5,28 +5,38 @@
  */
 package crash;
 
-import static crash.Record.dataParse;
-
 /**
  *
  * @author ryan
  */
 public class Person {
     int id;
-    int sex;
+    char sex;
     int age;
     int position;
     int treatment;
     int safe;
     int user;
     
-    public Person(String data) {
-        this.id = dataParse(data.substring(44,46));
-        this.sex = dataParse(data.substring(47,48));
-        this.age = dataParse(data.substring(49,51));
-        this.position = dataParse(data.substring(52,54));
-        this.treatment = dataParse(data.substring(55,56));
-        this.safe = dataParse(data.substring(57,59));
-        this.user = dataParse(data.substring(60,61));
+    public Person(int id_, char sex_, int age_, int position_, int treatment_,
+            int safe_, int user_) {
+        this.id = id_;
+        this.sex = sex_;
+        this.age = age_;
+        this.position = position_;
+        this.treatment = treatment_;
+        this.safe = safe_;
+        this.user = user_;
     }
+    
+    @Override
+    public String toString() {
+        return id + "," +
+                sex + "," +
+                age + "," +
+                position + "," +
+                treatment + "," +
+                safe + "," +
+                user;
+    }        
 }
