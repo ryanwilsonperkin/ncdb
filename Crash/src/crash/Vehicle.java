@@ -21,6 +21,23 @@ public class Vehicle {
     }
     
     @Override
+    public boolean equals(Object o) {
+        Vehicle other = (Vehicle) o;
+        return this.id == other.id &&
+                this.type == other.type &&
+                this.year == other.year;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.id;
+        hash = 89 * hash + this.type;
+        hash = 89 * hash + this.year;
+        return hash;
+    }
+    
+    @Override
     public String toString() {
         return id + "," +
                 type + "," +

@@ -30,10 +30,11 @@ public class Crash {
         String filename = args[0];
         int n_threads = Integer.parseInt(args[1]);
         List<Record> records = Record.loadFile(filename);
-        List<Collision> collisions = Record.getUniqueCollisions(records);
+        List<Record> uniqueCollisions = Record.filterDuplicateCollisions(records);
+        List<Record> uniqueVehicles = Record.filterDuplicateVehicles(records);
         System.out.println(records.size() + " records");
-        System.out.println(collisions.size() + " collisions");
-        System.out.println(records.get(0));
+        System.out.println(uniqueCollisions.size() + " collisions");
+        System.out.println(uniqueVehicles.size() + " vehicles");
         
         ForkJoinPool thread_pool = new ForkJoinPool(n_threads);
         

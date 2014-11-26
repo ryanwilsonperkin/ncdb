@@ -58,14 +58,26 @@ public class Record {
                 p_safe, p_user);
     }
         
-    public static List<Collision> getUniqueCollisions(List<Record> records) {
-        Set<Collision> collision_set = new HashSet<Collision>();
-        List<Collision> collision_list = new ArrayList<Collision>();
+    public static List<Record> filterDuplicateCollisions(List<Record> records) {
+        List<Record> result = new ArrayList<>();
+        Set<Collision> unique = new HashSet<>();
         for (Record r : records) {
-            if (r.collision.severity > 0) collision_set.add(r.collision);
+            if (unique.add(r.collision)) {
+                result.add(r);
+            }
         }
-        collision_list.addAll(collision_set);
-        return collision_list;
+        return result;
+    }
+    
+    public static List<Record> filterDuplicateVehicles(List<Record> records) {
+        List<Record> result = new ArrayList<>();
+        Set<Pair<Collision,Vehicle>> unique = new HashSet<>();
+        for (Record r : records) {
+            if (unique.add(new Pair<>(r.collision,r.vehicle))) {
+                result.add(r);
+            }
+        }
+        return result;
     }
     
     public static List<Record> loadFile(String file_name) 
@@ -97,5 +109,30 @@ public class Record {
         return collision.toString() + "," + 
                vehicle.toString() + "," + 
                person.toString();
+    }
+    
+    private static class Pair<Collision, Vehicle> {
+        final Collision collision;
+        final Vehicle vehicle;
+        
+        Pair(Collision collision, Vehicle vehicle) {
+            this.collision = collision;
+            this.vehicle = vehicle;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 97 * hash + this.collision.hashCode();
+            hash = 97 * hash + this.vehicle.hashCode();
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            Pair<Collision, Vehicle> other = (Pair<Collision, Vehicle>) o;
+            return this.collision.equals(other.collision) &&
+                    this.vehicle.equals(other.vehicle);
+        }
     }
 }
