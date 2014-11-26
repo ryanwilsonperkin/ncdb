@@ -54,7 +54,8 @@ public class Crash {
                     System.out.println("$Q4");
                     break;
                 case "5":
-                    System.out.println("$Q5");
+                    Query5 q5 = new Query5(collisions, thread_pool, 100);
+                    System.out.println(q5.result());
                     break;
                 default:
                     break;
