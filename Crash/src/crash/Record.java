@@ -60,9 +60,8 @@ public class Record {
         
     public static List<Record> filterDuplicateCollisions(List<Record> records) {
         List<Record> result = new ArrayList<>();
-        Set<Collision> unique = new HashSet<>();
         for (Record r : records) {
-            if (unique.add(r.collision)) {
+            if (r.vehicle.id == 1 && r.person.id == 1) {
                 result.add(r);
             }
         }
@@ -71,9 +70,8 @@ public class Record {
     
     public static List<Record> filterDuplicateVehicles(List<Record> records) {
         List<Record> result = new ArrayList<>();
-        Set<Pair<Collision,Vehicle>> unique = new HashSet<>();
         for (Record r : records) {
-            if (unique.add(new Pair<>(r.collision,r.vehicle))) {
+            if (r.person.id == 1) {
                 result.add(r);
             }
         }
