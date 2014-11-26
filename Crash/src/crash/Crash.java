@@ -52,7 +52,8 @@ public class Crash {
                     System.out.println(q3.result());
                     break;
                 case "4":
-                    System.out.println("$Q4");
+                    Query4 q4 = new Query4(uniqueVehicles, thread_pool, 100);
+                    System.out.println(q4.result());
                     break;
                 case "5":
                     Query5 q5 = new Query5(uniqueCollisions, thread_pool, 100);
