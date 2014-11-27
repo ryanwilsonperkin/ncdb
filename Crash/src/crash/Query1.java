@@ -160,7 +160,7 @@ public class Query1 {
                 if (r.vehicle.id == 1 && r.person.id == 1) {
                     ++result[year][month][0];
                 }
-                if (r.collision.severity == 1) {
+                if (r.person.treatment == 3) {
                     ++result[year][month][1];
                 }
             }
@@ -170,7 +170,7 @@ public class Query1 {
         private int[][][] reduce(int[][][] a, int[][][] b) {
             int[][][] c = new int[10][12][2];
             for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
+                for (int j = 0; j < 12; j++) {
                     c[i][j][0] = a[i][j][0] + b[i][j][0];
                     c[i][j][1] = a[i][j][1] + b[i][j][1];
                 }
