@@ -23,6 +23,9 @@ public class Crash {
      */
     public static void main(String[] args) 
             throws FileNotFoundException, IOException {
+        long program_runtime, program_start = System.currentTimeMillis();
+        long query_runtime, query_start;
+        
         if (args.length < 3) {
             System.out.println("usage: ./crash file threads queries...");
             System.exit(1);
@@ -35,44 +38,64 @@ public class Crash {
         List<Record> records = Record.loadFile(filename);
         List<Record> uniqueCollisions = Record.filterDuplicateCollisions(records);
         List<Record> uniqueVehicles = Record.filterDuplicateVehicles(records);
+        
+        program_runtime = System.currentTimeMillis() - program_start;
+        System.out.println(String.format("$T0,%d,%.1f", n_threads, program_runtime / 1000.0));
+        output.println(String.format("$T0,%d,%.1f", n_threads, program_runtime / 1000.0));
+        
         System.out.println(records.size() + " records");
         System.out.println(uniqueCollisions.size() + " collisions");
-        System.out.println(uniqueVehicles.size() + " vehicles");
         
         ForkJoinPool thread_pool = new ForkJoinPool(n_threads);
         
-        String result = "";
+        String result;
         for (int i = 2; i < args.length; i++) {
+            query_start = System.currentTimeMillis();
             switch(args[i]) {
                 case "1": 
                     Query1 q1 = new Query1(records, thread_pool, 100);
                     result = q1.result();
                     System.out.print(result);
                     output.print(result);
+                    query_runtime = System.currentTimeMillis() - query_start;
+                    System.out.println(String.format("$T1,%d,%.1f", n_threads, query_runtime / 1000.0));
+                    output.println(String.format("$T1,%d,%.1f", n_threads, query_runtime / 1000.0));
                     break;
                 case "2":
                     Query2 q2 = new Query2(records, thread_pool, 100);
                     result = q2.result();
                     System.out.println(result);
                     output.println(result);
+                    query_runtime = System.currentTimeMillis() - query_start;
+                    System.out.println(String.format("$T2,%d,%.1f", n_threads, query_runtime / 1000.0));
+                    output.println(String.format("$T2,%d,%.1f", n_threads, query_runtime / 1000.0));
                     break;
                 case "3":
                     Query3 q3 = new Query3(records, thread_pool, 100);
                     result = q3.result();
                     System.out.println(result);
                     output.println(result);
+                    query_runtime = System.currentTimeMillis() - query_start;
+                    System.out.println(String.format("$T3,%d,%.1f", n_threads, query_runtime / 1000.0));
+                    output.println(String.format("$T3,%d,%.1f", n_threads, query_runtime / 1000.0));
                     break;
                 case "4":
                     Query4 q4 = new Query4(uniqueVehicles, thread_pool, 100);
                     result = q4.result();
                     System.out.println(result);
                     output.println(result);
+                    query_runtime = System.currentTimeMillis() - query_start;
+                    System.out.println(String.format("$T4,%d,%.1f", n_threads, query_runtime / 1000.0));
+                    output.println(String.format("$T4,%d,%.1f", n_threads, query_runtime / 1000.0));
                     break;
                 case "5":
                     Query5 q5 = new Query5(uniqueCollisions, thread_pool, 100);
                     result = q5.result();
                     System.out.println(result);
                     output.println(result);
+                    query_runtime = System.currentTimeMillis() - query_start;
+                    System.out.println(String.format("$T5,%d,%.1f", n_threads, query_runtime / 1000.0));
+                    output.println(String.format("$T5,%d,%.1f", n_threads, query_runtime / 1000.0));
                     break;
                 default:
                     System.err.println("error: Invalid entry");
@@ -80,6 +103,9 @@ public class Crash {
                     break;
             }
         }
+        program_runtime = System.currentTimeMillis() - program_start;
+        System.out.println(String.format("$T9,%d,%.1f", n_threads, program_runtime / 1000.0));
+        output.println(String.format("$T9,%d,%.1f", n_threads, program_runtime / 1000.0));
         output.close();
     }
 }
