@@ -41,7 +41,7 @@ public class Crash {
         for (int i = 2; i < args.length; i++) {
             switch(args[i]) {
                 case "1":
-                    Query1 q1 = new Query1(uniqueCollisions, thread_pool, 100);
+                    Query1 q1 = new Query1(records, thread_pool, 100);
                     System.out.print(q1.result());
                     break;
                 case "2":

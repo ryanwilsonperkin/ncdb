@@ -18,9 +18,11 @@ public class Query1 {
     final ForkJoinPool thread_pool;
     final int threshold;
     
-    private int[][][] results;
-    private int[] worst_month_collisions;
-    private int[] worst_month_fatalities;
+    private final int[][][] results;
+    private final int[] worst_month_collisions;
+    private final int[] worst_month_fatalities;
+    private final int worst_overall_month_collisions;
+    private final int worst_overall_month_fatalities;
     
     Query1(List<Record> records, ForkJoinPool thread_pool, int threshold) {
         this.records = records;
@@ -28,64 +30,99 @@ public class Query1 {
         this.threshold = threshold;
         this.results = thread_pool.invoke(
                 new Computation(records, 0, records.size(), threshold));
-        reduceCollisions();
-        reduceFatalities();
+        this.worst_month_collisions = getWorstMonthCollisions();
+        this.worst_month_fatalities = getWorstMonthFatalities();
+        this.worst_overall_month_collisions = getWorstMonthOverallCollisions();
+        this.worst_overall_month_fatalities = getWorstMonthOverallFatalities();
     }
     
     public String result() {
         String years = "";
         int year;
-        for (int i = 0; i <= 10; i++) {
-            year = (i == 10) ? 9999 : i + 1999;
+        for (int i = 0; i < 10; i++) {
+            year = i + 1999;
             years += String.format("$Q1,%d,%d,%d\n", year, worst_month_collisions[i], worst_month_fatalities[i]);
         }
+        years += String.format("$Q1,%d,%d,%d\n", 9999, worst_overall_month_collisions, worst_overall_month_fatalities);
         return years;
     }
     
-    private void reduceCollisions() {
-        int[] worst_month_names = new int[11];
-        int[] worst_month_counts = new int[11];
-        int[] total_month_counts = new int[12];
+    private int getWorstMonthOverallCollisions() {
+        int[] month_counts = new int[12];
+        int worst_month = 1;
+        int max = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 12; j++) {
-                if (results[i][j][0] > worst_month_counts[i]) {
-                    worst_month_counts[i] = results[i][j][0];
-                    worst_month_names[i] = j+1;
-                }
-                total_month_counts[j] += results[i][j][0];
+                month_counts[j] += results[i][j][0];
             }
         }
-        for (int j = 0; j < 12; j++) {
-            if (total_month_counts[j] > worst_month_counts[10]) {
-                worst_month_counts[10] = total_month_counts[j];
-                worst_month_names[10] = j+1;
+        for (int i = 0; i < 12; i++) {
+            if (month_counts[i] > max) {
+                max = month_counts[i];
+                worst_month = i + 1;
             }
         }
-        this.worst_month_collisions = worst_month_names;
+        return worst_month;
     }
     
-    private void reduceFatalities() {
-        int[] worst_month_names = new int[11];
-        int[] worst_month_counts = new int[11];
-        int[] total_month_counts = new int[12];
+    private int getWorstMonthOverallFatalities() {
+        int[] month_counts = new int[12];
+        int worst_month = 1;
+        int max = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 12; j++) {
-                if (results[i][j][1] > worst_month_counts[i]) {
-                    worst_month_counts[i] = results[i][j][1];
-                    worst_month_names[i] = j+1;
-                }
-                total_month_counts[j] += results[i][j][1];
+                month_counts[j] += results[i][j][1];
             }
         }
-        for (int j = 0; j < 12; j++) {
-            if (total_month_counts[j] > worst_month_counts[10]) {
-                worst_month_counts[10] = total_month_counts[j];
-                worst_month_names[10] = j+1;
+        for (int i = 0; i < 12; i++) {
+            if (month_counts[i] > max) {
+                max = month_counts[i];
+                worst_month = i + 1;
             }
         }
-        this.worst_month_fatalities = worst_month_names;
+        return worst_month;
     }
     
+    private int[] getWorstMonthCollisions() {
+        int worst_months[] = new int[10];
+        for (int i = 0; i < 10; i++) {
+            worst_months[i] = getWorstMonthCollisions(i);
+        }
+        return worst_months;
+    }
+    
+    private int getWorstMonthCollisions(int year) {
+        int worst_month = 1;
+        int max = 0;
+        for (int i = 0; i < 12; i++) {
+            if (results[year][i][0] > max) {
+                max = results[year][i][0];
+                worst_month = i + 1;
+            }
+        }
+        return worst_month;
+    }
+    
+    private int[] getWorstMonthFatalities() {
+        int worst_months[] = new int[10];
+        for (int i = 0; i < 10; i++) {
+            worst_months[i] = getWorstMonthFatalities(i);
+        }
+        return worst_months;
+    }
+    
+    private int getWorstMonthFatalities(int year) {
+        int worst_month = 1;
+        int max = 0;
+        for (int i = 0; i < 12; i++) {
+            if (results[year][i][1] > max) {
+                max = results[year][i][1];
+                worst_month = i + 1;
+            }
+        }
+        return worst_month;
+    }
+
     private class Computation extends RecursiveTask<int[][][]> {
         final List<Record> records;
         final int start;
@@ -114,14 +151,16 @@ public class Query1 {
         private int[][][] calculate() {
             int[][][] result = new int[10][12][2];
             for (int i = start; i < end; i++) {
-                Collision c = records.get(i).collision;
-                int year = c.year - 1999;
-                int month = c.month - 1;
+                Record r = records.get(i);
+                int year = r.collision.year - 1999;
+                int month = r.collision.month - 1;
                 if (month < 0) {
                     continue;
                 }
-                ++result[year][month][0];
-                if (c.severity == 1) {
+                if (r.vehicle.id == 1 && r.person.id == 1) {
+                    ++result[year][month][0];
+                }
+                if (r.collision.severity == 1) {
                     ++result[year][month][1];
                 }
             }
