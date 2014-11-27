@@ -108,29 +108,4 @@ public class Record {
                vehicle.toString() + "," + 
                person.toString();
     }
-    
-    private static class Pair<Collision, Vehicle> {
-        final Collision collision;
-        final Vehicle vehicle;
-        
-        Pair(Collision collision, Vehicle vehicle) {
-            this.collision = collision;
-            this.vehicle = vehicle;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 97 * hash + this.collision.hashCode();
-            hash = 97 * hash + this.vehicle.hashCode();
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            Pair<Collision, Vehicle> other = (Pair<Collision, Vehicle>) o;
-            return this.collision.equals(other.collision) &&
-                    this.vehicle.equals(other.vehicle);
-        }
-    }
 }
