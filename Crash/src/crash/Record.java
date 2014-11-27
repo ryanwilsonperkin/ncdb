@@ -11,9 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -80,7 +78,7 @@ public class Record {
     
     public static List<Record> loadFile(String file_name) 
             throws FileNotFoundException, IOException {
-        List<Record> records = new ArrayList<Record>();
+        List<Record> records = new ArrayList<>();
         BufferedReader in = new BufferedReader(new FileReader(file_name));
         String line;
         
