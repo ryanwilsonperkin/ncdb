@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Query3.java
+ *  Determine the greatest number of vehicles ever involved in a single 
+ *  collision during the 10 years, and when it took place.
+ *
+ *  Ryan Wilson-Perkin (0719644)
  */
 package crash;
 

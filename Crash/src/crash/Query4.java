@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Query4.java
+ *  Determine how many people typically wreck their new car in a year on average
+ *  and how old the average vehicle in a collision was over the 10 years.
+ *
+ *  Ryan Wilson-Perkin (0719644)
  */
 package crash;
 

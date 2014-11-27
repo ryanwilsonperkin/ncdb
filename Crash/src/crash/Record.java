@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Record.java
+ *  Representation of a record line from the NCDB data file.
+ *  Helper methods for working with records.
+ *
+ *  Ryan Wilson-Perkin (0719644)
  */
 package crash;
 

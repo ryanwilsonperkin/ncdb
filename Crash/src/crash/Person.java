@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Person.java
+ *  Representation of a person from the NCDB data file.
+ *
+ *  Ryan Wilson-Perkin (0719644)
  */
 package crash;
 

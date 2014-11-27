@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Query1.java
+ *  Determine the worst month of the year for collisions by quantity and by 
+ *  fatalities.
+ *
+ *  Ryan Wilson-Perkin (0719644)
  */
 package crash;
 

@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Crash.java
+ *  Main function of the crash program.
+ *  Runs queries on NCDB data.
+ *
+ *  usage: ./crash filename threads queries...
+ *
+ *  Ryan Wilson-Perkin (0719644)
  */
 package crash;
 
