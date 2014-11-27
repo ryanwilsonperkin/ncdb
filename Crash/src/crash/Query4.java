@@ -31,7 +31,7 @@ public class Query4 {
     public String result() {
         int annual_new_wrecks = results[0] / 10;
         float average_vehicle_age =  (float) results[1] / records.size();
-        return String.format("$Q4,%d,%.2f", annual_new_wrecks, average_vehicle_age);
+        return String.format("$Q4,%d,%.1f", annual_new_wrecks, average_vehicle_age);
     }
 
     
@@ -64,10 +64,8 @@ public class Query4 {
             int[] result = new int[2];
             for (int i = start; i < end; i++) {
                 Record r = records.get(i);
-                if (r.vehicle.year > 0) {
-                    if (r.vehicle.year >= r.collision.year) ++result[0];
-                    result[1] += r.collision.year - r.vehicle.year + 1;
-                }
+                if (r.vehicle.year >= r.collision.year) ++result[0];
+                result[1] += r.collision.year - r.vehicle.year + 1;
             }
             return result;
         }

@@ -71,7 +71,7 @@ public class Record {
     public static List<Record> filterDuplicateVehicles(List<Record> records) {
         List<Record> result = new ArrayList<>();
         for (Record r : records) {
-            if (r.person.id == 1) {
+            if (r.person.id == 1 && r.vehicle.year > 0) {
                 result.add(r);
             }
         }
