@@ -7,8 +7,8 @@ package crash;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 
 /**
@@ -17,6 +17,7 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class Crash {
     
+    public static final String output_filename = "crash.txt";
     /**
      * @param args the command line arguments
      */
@@ -29,6 +30,8 @@ public class Crash {
         
         String filename = args[0];
         int n_threads = Integer.parseInt(args[1]);
+        PrintWriter output = new PrintWriter(output_filename, "UTF-8");
+        
         List<Record> records = Record.loadFile(filename);
         List<Record> uniqueCollisions = Record.filterDuplicateCollisions(records);
         List<Record> uniqueVehicles = Record.filterDuplicateVehicles(records);
@@ -38,31 +41,45 @@ public class Crash {
         
         ForkJoinPool thread_pool = new ForkJoinPool(n_threads);
         
+        String result = "";
         for (int i = 2; i < args.length; i++) {
             switch(args[i]) {
-                case "1":
+                case "1": 
                     Query1 q1 = new Query1(records, thread_pool, 100);
-                    System.out.print(q1.result());
+                    result = q1.result();
+                    System.out.print(result);
+                    output.print(result);
                     break;
                 case "2":
                     Query2 q2 = new Query2(records, thread_pool, 100);
-                    System.out.println(q2.result());
+                    result = q2.result();
+                    System.out.println(result);
+                    output.println(result);
                     break;
                 case "3":
                     Query3 q3 = new Query3(records, thread_pool, 100);
-                    System.out.println(q3.result());
+                    result = q3.result();
+                    System.out.println(result);
+                    output.println(result);
                     break;
                 case "4":
                     Query4 q4 = new Query4(uniqueVehicles, thread_pool, 100);
-                    System.out.println(q4.result());
+                    result = q4.result();
+                    System.out.println(result);
+                    output.println(result);
                     break;
                 case "5":
                     Query5 q5 = new Query5(uniqueCollisions, thread_pool, 100);
-                    System.out.println(q5.result());
+                    result = q5.result();
+                    System.out.println(result);
+                    output.println(result);
                     break;
                 default:
+                    System.err.println("error: Invalid entry");
+                    System.exit(1);
                     break;
             }
         }
+        output.close();
     }
 }
